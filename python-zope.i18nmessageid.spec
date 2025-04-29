@@ -3,7 +3,7 @@
 %bcond_without	doc	# Sphinx documentation
 %bcond_without	tests	# unit tests (installed package required)
 %bcond_without	python2 # CPython 2.x module
-%bcond_without	python3 # CPython 3.x module
+%bcond_with	python3 # CPython 3.x module (built from python3-zope.i18nmessageid)
 
 %define module	zope.i18nmessageid
 Summary:	Message Identifiers for internationalization
@@ -11,7 +11,7 @@ Summary(pl.UTF-8):	Identyfikatory komunikatów do lokalizacji
 Name:		python-%{module}
 # keep 5.x here for python2 support
 Version:	5.1.1
-Release:	3
+Release:	4
 License:	ZPL v2.1
 Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/z/zope.i18nmessageid/zope.i18nmessageid-%{version}.tar.gz
@@ -42,7 +42,7 @@ BuildRequires:	python3-zope.testrunner
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with doc}
-BuildRequires:	sphinx-pdg
+BuildRequires:	sphinx-pdg-2
 %endif
 Requires:	python-modules >= 1:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -90,7 +90,8 @@ Dokumentacja API modułu Pythona zope.i18nmessageid.
 
 %if %{with doc}
 PYTHONPATH=$(pwd)/src \
-%{__make} -C docs html
+%{__make} -C docs html \
+	SPHINXBUILD=sphinx-build-2
 %endif
 
 %install
